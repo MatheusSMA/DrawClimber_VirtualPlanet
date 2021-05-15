@@ -29,64 +29,25 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     Transform LastInstantiated_Collider;
 
+    public Transform legPosition;
+
     //for Love Balls
 
     //[SerializeField]
     //List<Rigidbody> RB = new List<Rigidbody>();
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        StartDrawing = true;
-        MousePos = Input.mousePosition;
-
-        LR = LineGO.AddComponent<LineRenderer>();
-
-        LR.startWidth = 0.2f;
-
-
-
-        LR.material = LineMat;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        StartDrawing = false;
-
-        Rigidbody rb = LineGO.AddComponent<Rigidbody>();
-        rb.useGravity = false;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX;
-
-        LR.useWorldSpace = false;
-
-        Destroy(LastInstantiated_Collider.gameObject);
-
-        Start();
-
-        CurrentIndex = 0;
-
-        //for love balls
-
-        //foreach(Rigidbody SphereRB in RB )
-        //{
-        //SphereRB.useGravity = true;
-        //}
-    }
 
     void Start()
     {
-        LineGO = new GameObject();
-         
-
+        LineGO = new GameObject();         
     }
 
 
     void FixedUpdate()
     {
-
         if (StartDrawing)
         {
             Vector3 Dist = MousePos - Input.mousePosition;
-
             float Distance_SqrMag = Dist.sqrMagnitude;
 
             if (Distance_SqrMag > 1000f)
@@ -111,21 +72,61 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
                     LastInstantiated_Collider.localScale = new Vector3(LastInstantiated_Collider.localScale.x, LastInstantiated_Collider.localScale.y, Vector3.Distance(LastInstantiated_Collider.position, CurLinePos) * 1.2f);
                 }
 
+                LineGO.transform.position = LR.GetPosition(0);
+
                 LastInstantiated_Collider = Instantiate(Collider_Prefab, LR.GetPosition(CurrentIndex), Quaternion.identity, LineGO.transform);
-               
+
+
                 LastInstantiated_Collider.gameObject.SetActive(false);
 
                 MousePos = Input.mousePosition;
 
                 CurrentIndex++;
 
+
                 LR.positionCount = CurrentIndex + 1;
 
                 LR.SetPosition(CurrentIndex, cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z + 10f)));
                
-                LineGO.transform.SetParent(g.transform);
-                g.transform.position = LR.GetPosition(0);
+ 
+               
+
             }
         }
+    }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        StartDrawing = true;
+        MousePos = Input.mousePosition;
+
+        LR = LineGO.AddComponent<LineRenderer>();
+
+        LR.startWidth = 0.2f;
+
+
+
+        LR.material = LineMat;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        StartDrawing = false;
+
+        Rigidbody rb = LineGO.AddComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotationX;
+
+        LR.useWorldSpace = false;
+
+        LR.enabled = false;
+
+        LineGO.transform.position = legPosition.position;
+
+        LineGO.transform.SetParent(legPosition);
+
+        Start();
+
+        CurrentIndex = 0;
+    
     }
 }
