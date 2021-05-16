@@ -8,16 +8,13 @@ public class Rotator : MonoBehaviour
     public float speed = 0f;
     public Rigidbody rb;
     
-
     //Forward Direction
     public bool ForwardX = false;
     public bool ForwardY = false;
     public bool ForwardZ = false;
 
     void Update()
-    {
-        
-
+    {    
         //Forward Direction
         if (ForwardX == true)
         {
@@ -32,8 +29,7 @@ public class Rotator : MonoBehaviour
             transform.Rotate(0, 0, Time.deltaTime * speed, Space.Self);
         }            
     }
-
-    public void addTorqueBox()
+    public void addTorqueBox() //NOT WORKING AS VERY WELL
     {
         rb.AddTorque(Time.deltaTime * speed, 0, 0);
     }
