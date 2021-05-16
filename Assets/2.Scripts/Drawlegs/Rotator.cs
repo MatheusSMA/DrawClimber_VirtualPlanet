@@ -6,6 +6,8 @@ public class Rotator : MonoBehaviour
 {
     //Rotational Speed
     public float speed = 0f;
+    public Rigidbody rb;
+    
 
     //Forward Direction
     public bool ForwardX = false;
@@ -14,6 +16,8 @@ public class Rotator : MonoBehaviour
 
     void Update()
     {
+        
+
         //Forward Direction
         if (ForwardX == true)
         {
@@ -26,6 +30,12 @@ public class Rotator : MonoBehaviour
         if (ForwardZ == true)
         {
             transform.Rotate(0, 0, Time.deltaTime * speed, Space.Self);
-        }      
+        }            
     }
+
+    public void addTorqueBox()
+    {
+        rb.AddTorque(Time.deltaTime * speed, 0, 0);
+    }
+
 }

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public GameObject g;
+    public GameObject body;
 
     GameObject LineGO;
 
@@ -31,20 +31,17 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     public Transform legPosition;
 
-    //for Love Balls
-
-    //[SerializeField]
-    //List<Rigidbody> RB = new List<Rigidbody>();
-
 
     void Start()
     {
-        LineGO = new GameObject();         
+        LineGO = new GameObject();
     }
 
 
     void FixedUpdate()
     {
+
+
         if (StartDrawing)
         {
             Vector3 Dist = MousePos - Input.mousePosition;
@@ -54,7 +51,7 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
             {
                 // Set this Position for our line
 
-                LR.SetPosition(CurrentIndex, cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z + 10f)));
+                LR.SetPosition(CurrentIndex, cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Mathf.Round(Input.mousePosition.z) + 10f)));
 
                 if (LastInstantiated_Collider != null)
                 {
@@ -69,7 +66,7 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
                         LastInstantiated_Collider.eulerAngles = new Vector3(LastInstantiated_Collider.rotation.eulerAngles.x, 90, LastInstantiated_Collider.rotation.eulerAngles.z);
                     }
 
-                    LastInstantiated_Collider.localScale = new Vector3(LastInstantiated_Collider.localScale.x, LastInstantiated_Collider.localScale.y, Vector3.Distance(LastInstantiated_Collider.position, CurLinePos) * 1.2f);
+                    LastInstantiated_Collider.localScale = new Vector3(LastInstantiated_Collider.localScale.x, LastInstantiated_Collider.localScale.y, Vector3.Distance(LastInstantiated_Collider.position, CurLinePos) * 1.1f);
                 }
 
                 LineGO.transform.position = LR.GetPosition(0);
@@ -87,8 +84,7 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
                 LR.positionCount = CurrentIndex + 1;
 
                 LR.SetPosition(CurrentIndex, cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z + 10f)));
-               
- 
+                
                
 
             }
@@ -112,9 +108,12 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     {
         StartDrawing = false;
 
-        Rigidbody rb = LineGO.AddComponent<Rigidbody>();
-        rb.useGravity = false;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX;
+       // Rigidbody rb = LineGO.AddComponent<Rigidbody>();
+       // rb.useGravity = false;
+       // rb.constraints = RigidbodyConstraints.FreezeRotationX;
+       ////rb.isKinematic = true;
+       
+
 
         LR.useWorldSpace = false;
 
@@ -127,6 +126,6 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         Start();
 
         CurrentIndex = 0;
-    
+
     }
 }
