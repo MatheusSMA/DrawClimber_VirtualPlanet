@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    #region Camera Variables
     public Transform target;
     public Vector3 offset;
-     void Update()
+    #endregion
+
+    void Update()
     {
-        transform.position = target.position + offset;        
+        //Seguir o objeto com distancia determinada
+        //Follow the object with certain distance
+        transform.position = target.position + offset;
     }
 }
