@@ -13,25 +13,28 @@ public class Rotator : MonoBehaviour
     public bool ForwardY = false;
     public bool ForwardZ = false;
 
-    void Update()
+    void FixedUpdate()
     {    
         //Forward Direction
         if (ForwardX == true)
         {
-            transform.Rotate(Time.deltaTime * speed, 0, 0, Space.Self);
+            addTorqueBox();
+            //transform.Rotate(Time.deltaTime * speed, 0, 0, Space.Self);
         }
         if (ForwardY == true)
         {
-            transform.Rotate(0, Time.deltaTime * speed, 0, Space.Self);
+            addTorqueBox();
+            //transform.Rotate(0, Time.deltaTime * speed, 0, Space.Self);
         }
         if (ForwardZ == true)
         {
+            addTorqueBox();
             transform.Rotate(0, 0, Time.deltaTime * speed, Space.Self);
         }            
     }
-    public void addTorqueBox() //NOT WORKING AS VERY WELL
+    public void addTorqueBox() 
     {
-        rb.AddTorque(Time.deltaTime * speed, 0, 0);
+        rb.AddTorque(10, 0, 0);
     }
 
 }
