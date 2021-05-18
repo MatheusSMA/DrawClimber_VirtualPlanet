@@ -36,6 +36,7 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     public Transform legPosition;
     public Transform legPosition2;
     public Mesh cubeShapeColliderDraw;
+    public PhysicMaterial legPhysicMaterial;
     #endregion    
 
     void Start()
@@ -69,6 +70,11 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
                         Vector3 CurLinePos = lR.GetPosition(currentIndex);
                         lastInstantiated_Collider.gameObject.SetActive(true);
                         lastInstantiated_Collider.LookAt(CurLinePos);
+
+                        if (lastInstantiated_Collider.rotation.y == 0)
+                        {
+                            lastInstantiated_Collider.eulerAngles = new Vector3(lastInstantiated_Collider.rotation.eulerAngles.x, 90, lastInstantiated_Collider.rotation.eulerAngles.z);
+                        }
                         //Collider em volta da linha
                         //Collider around the line
                         lastInstantiated_Collider.localScale = new Vector3(lastInstantiated_Collider.localScale.x, lastInstantiated_Collider.localScale.y, Vector3.Distance(lastInstantiated_Collider.position, CurLinePos) * 1.1f);
@@ -81,6 +87,11 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
                         Vector3 CurLinePos = lR.GetPosition(currentIndex);
                         lastInstantiated_Collider2.gameObject.SetActive(true);
                         lastInstantiated_Collider2.LookAt(CurLinePos);
+
+                        if (lastInstantiated_Collider2.rotation.y == 0)
+                        {
+                            lastInstantiated_Collider2.eulerAngles = new Vector3(lastInstantiated_Collider2.rotation.eulerAngles.x, 90, lastInstantiated_Collider2.rotation.eulerAngles.z);
+                        }
                         //Collider em volta da linha2
                         //collider around the line
                         lastInstantiated_Collider2.localScale = new Vector3(lastInstantiated_Collider2.localScale.x, lastInstantiated_Collider2.localScale.y, Vector3.Distance(lastInstantiated_Collider2.position, CurLinePos) * 1.1f);
@@ -142,6 +153,7 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         lastInstantiated_Collider.gameObject.SetActive(false);
         lastInstantiated_Collider.gameObject.AddComponent<MeshCollider>().convex = true;
         lastInstantiated_Collider.gameObject.GetComponent<MeshCollider>().sharedMesh = cubeShapeColliderDraw;
+        lastInstantiated_Collider.gameObject.GetComponent<MeshCollider>().material = legPhysicMaterial;
         lastInstantiated_Collider.localScale = new Vector3(0.4f, 0.4f, lastInstantiated_Collider.localScale.z);
     }
     public void LastInstantiateCollider2()
@@ -152,6 +164,7 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         lastInstantiated_Collider2.gameObject.SetActive(false);
         lastInstantiated_Collider2.gameObject.AddComponent<MeshCollider>().convex = true;
         lastInstantiated_Collider2.gameObject.GetComponent<MeshCollider>().sharedMesh = cubeShapeColliderDraw;
+        lastInstantiated_Collider.gameObject.GetComponent<MeshCollider>().material = legPhysicMaterial;
         lastInstantiated_Collider2.localScale = new Vector3(0.4f, 0.4f, lastInstantiated_Collider.localScale.z);
     }
     public void DestroyOldLegs()
