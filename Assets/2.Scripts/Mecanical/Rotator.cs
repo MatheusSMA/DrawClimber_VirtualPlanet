@@ -30,7 +30,7 @@ public class Rotator : MonoBehaviour
     {
         //Adiciona o torque para realizar o movimento
         //Adds torque to realize moviment
-        rb.AddTorque(10, 0, 0);
+        rb.AddTorque(0, 0, 10);
     }
 
 }

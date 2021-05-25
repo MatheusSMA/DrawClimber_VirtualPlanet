@@ -41,8 +41,8 @@ public class DrawLineCanvas : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     void Start()
     {
-        lineGO = new GameObject();
-        lineGO2 = new GameObject();
+        lineGO = new GameObject("Linha");
+        lineGO2 = new GameObject("Linha2");
     }
 
     void FixedUpdate()
